@@ -1,0 +1,11 @@
+.container-fluid {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.card-footer {
+    font-weight:  bold;
+    color: white !important;
+    background-color: grey ;
+    text-align: center;
+}
