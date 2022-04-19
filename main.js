@@ -38,10 +38,8 @@ function isLeap(y) {
     return checkLeap;
 }
 
-function dayOfMonth(dt) {
-    var m = takeMonth(dt);
-    var y = takeYear(dt);
-    var dOfMonth = 0;
+function dayMax(m, y) {
+    var dmax;
     switch (m) {
         case 1:
         case 3:
@@ -50,25 +48,25 @@ function dayOfMonth(dt) {
         case 8:
         case 10:
         case 12:
-            dOfMonth = 31;
+            dmax = 31;
             break;
         case 4:
         case 6:
         case 9:
         case 11:
-            dOfMonth = 30;
+            dmax = 30;
             break;
         case 2:
             if (isLeap(y)) {
-                dOfMonth = 29;
+                dmax = 29;
             } else {
-                dOfMonth = 28;
+                dmax = 28;
             }
             break;
         default:
-            dOfMonth = "Tháng không hợp lệ";
+            dmax = "Tháng không hợp lệ";
     }
-    return dOfMonth;
+    return dmax;
 }
 
 
@@ -76,17 +74,19 @@ getEleID("btnNgayTruoc").onclick = function () {
     var day = takeDay("txtNgay");
     var month = takeMonth("txtNgay");
     var year = takeYear("txtNgay");
-    var e = dayOfMonth("txtNgay")
-    console.log("day of month " + e);
-
     day -= 1;
-    if (day == 0) {
+    if (day == 0 && month == 1) {
+        year -= 1;
+        month = 12;
+        day = dayMax(month,year);
+    } else if (day == 0) {
         month -= 1;
-        day = dayOfMonth("txtNgay");
+        day = dayMax(month,year);
     } else {
-        
+        month = month;
+        year = year;
     }
 
     var kq = month + "-" + day + "-" + year;
-    // getEleID("kqNgay").innerHTML = kq;
+    getEleID("kqNgay").innerHTML = kq;
 }
