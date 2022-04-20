@@ -9,24 +9,30 @@ function getEleID(element) {
  * Đầu ra : xuất kết quả 
  */
 
-function takeYear(dt) {
+function dateInfo(dt){
     var t = getEleID(dt).value;
-    var d = new Date(t);
+    var dInfo = new Date(t);
+    return dInfo;
+}
+
+function takeYear(dt) {
+    var d = dateInfo(dt);
     var year = d.getFullYear();
     return year;
 }
 
 function takeMonth(dt) {
-    var t = getEleID(dt).value;
-    var d = new Date(t);
+    var d = dateInfo(dt);
     var month = d.getMonth() + 1;
     return month;
 }
 
 function takeDay(dt) {
-    var t = getEleID(dt).value;
-    var d = new Date(t);
+    var d = dateInfo(dt);
     var day = d.getDate();
+    if (isNaN(day)) {
+        day = 1;
+    }
     return day;
 }
 
@@ -74,19 +80,55 @@ getEleID("btnNgayTruoc").onclick = function () {
     var day = takeDay("txtNgay");
     var month = takeMonth("txtNgay");
     var year = takeYear("txtNgay");
+    var dmax = dayMax(month,year);
     day -= 1;
-    if (day == 0 && month == 1) {
-        year -= 1;
-        month = 12;
-        day = dayMax(month,year);
-    } else if (day == 0) {
-        month -= 1;
-        day = dayMax(month,year);
-    } else {
-        month = month;
-        year = year;
+    if( day == 0 ){
+        if (month == 1) {
+            year -= 1;
+            month = 12;
+        } else {
+            month -= 1;
+        }
+        day = dmax;
     }
-
-    var kq = month + "-" + day + "-" + year;
+    var kq = "Ngày trước: " + month + "-" + day + "-" + year;
     getEleID("kqNgay").innerHTML = kq;
 }
+
+getEleID("btnNgaySau").onclick = function () {
+    var day = takeDay("txtNgay");
+    var month = takeMonth("txtNgay");
+    var year = takeYear("txtNgay");
+    var dmax = dayMax(month,year);
+    day += 1;
+    if( day > dmax ){
+        if (month == 12) {
+            year += 1;
+            month = 1;
+        } else {
+            month += 1;
+        }
+        day = 1;
+    }
+    var kq = "Ngày sau: "  + month + "-" + day + "-" + year;
+    getEleID("kqNgay").innerHTML = kq;
+}
+
+
+/**
+ * Bài 2 :
+ * Đầu vào : khai báo tháng năm
+ * Xử lý : kiểm tra ngày tối đa trong tháng của năm
+ * Đầu ra : hiển thị kết quả
+ */
+
+getEleID("btnNgayTD").onclick = function(){
+    var day = takeDay("txtNgayTD");
+    var month = takeMonth("txtNgayTD");
+    var year = takeYear("txtNgayTD");
+    var dmax = dayMax(month,year);
+    var kq = "Ngày sau: "  + month + "-" + day + "-" + year;
+    getEleID("kqNgayTD").innerHTML = kq;
+}
+
+
