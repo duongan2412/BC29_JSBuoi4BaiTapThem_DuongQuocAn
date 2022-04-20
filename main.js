@@ -80,7 +80,7 @@ getEleID("btnNgayTruoc").onclick = function () {
     var day = takeDay("txtNgay");
     var month = takeMonth("txtNgay");
     var year = takeYear("txtNgay");
-    var dmax = dayMax(month, year);
+    var dmax = dayMax((month-1), year);
     day -= 1;
     if (day == 0) {
         if (month == 1) {
@@ -91,7 +91,7 @@ getEleID("btnNgayTruoc").onclick = function () {
         }
         day = dmax;
     }
-    var kq = "Ngày trước: " + month + "-" + day + "-" + year;
+    var kq = "Ngày trước: " + year + "-" + month + "-" + day;
     getEleID("kqNgay").innerHTML = kq;
 }
 
@@ -110,7 +110,7 @@ getEleID("btnNgaySau").onclick = function () {
         }
         day = 1;
     }
-    var kq = "Ngày sau: " + month + "-" + day + "-" + year;
+    var kq = "Ngày sau: " + year + "-" + month + "-" + day;
     getEleID("kqNgay").innerHTML = kq;
 }
 
@@ -261,18 +261,30 @@ function soLonNhat(a, b, c){
 }
 
 getEleID("btnToaDo").onclick = function () {
-    var xTruong = getEleID(txtTdXTruong).value;
-    // var yTruong = getEleID(txtTdYTruong).value;
-    // var xSv1 = getEleID(txtTdXSv1).value;
-    // var ySv1 = getEleID(txtTdYSv1).value;
-    // var xSv2 = getEleID(txtTdXSv2).value;
-    // var ySv2 = getEleID(txtTdYSv2).value;
-    // var xSv3 = getEleID(txtTdXSv3).value;
-    // var ySv3 = getEleID(txtTdYSv3).value;
-    // var toaDoSV1 = tinhToaDo(xTruong,yTruong,xSv1,ySv1);
-    // var toaDoSV2 = tinhToaDo(xTruong,yTruong,xSv2,ySv2);
-    // var toaDoSV3 = tinhToaDo(xTruong,yTruong,xSv3,ySv3);
-    console.log(xTruong);
+    var tenSV1 = getEleID("txtTenSV1").innerText;
+    var tenSV2 = getEleID("txtTenSV2").innerText;
+    var tenSV3 = getEleID("txtTenSV3").innerText;
+    var xTruong = getEleID("txtTdXTruong").value;
+    var yTruong = getEleID("txtTdYTruong").value;
+    var xSv1 = getEleID("txtTdXSv1").value;
+    var ySv1 = getEleID("txtTdYSv1").value;
+    var xSv2 = getEleID("txtTdXSv2").value;
+    var ySv2 = getEleID("txtTdYSv2").value;
+    var xSv3 = getEleID("txtTdXSv3").value;
+    var ySv3 = getEleID("txtTdYSv3").value;
+    var toaDoSV1 = tinhToaDo(xTruong,yTruong,xSv1,ySv1);
+    var toaDoSV2 = tinhToaDo(xTruong,yTruong,xSv2,ySv2);
+    var toaDoSV3 = tinhToaDo(xTruong,yTruong,xSv3,ySv3);
+    var toaDoXaNhat = soLonNhat(toaDoSV1,toaDoSV2,toaDoSV3);
+    var kq = "";
+    if (toaDoXaNhat == toaDoSV1) {
+        kq = tenSV1 + " là người xa nhất";
+    } else if(toaDoXaNhat == toaDoSV2) {
+        kq = tenSV2 + " là người xa nhất";
+    } else {
+        kq = tenSV3 + " là người xa nhất";
+    }
+    getEleID("kqToaDo").innerHTML = kq;
 }
 
 
