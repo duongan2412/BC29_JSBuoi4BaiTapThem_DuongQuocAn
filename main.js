@@ -9,7 +9,7 @@ function getEleID(element) {
  * Đầu ra : xuất kết quả 
  */
 
-function dateInfo(dt){
+function dateInfo(dt) {
     var t = getEleID(dt).value;
     var dInfo = new Date(t);
     return dInfo;
@@ -80,9 +80,9 @@ getEleID("btnNgayTruoc").onclick = function () {
     var day = takeDay("txtNgay");
     var month = takeMonth("txtNgay");
     var year = takeYear("txtNgay");
-    var dmax = dayMax(month,year);
+    var dmax = dayMax(month, year);
     day -= 1;
-    if( day == 0 ){
+    if (day == 0) {
         if (month == 1) {
             year -= 1;
             month = 12;
@@ -99,9 +99,9 @@ getEleID("btnNgaySau").onclick = function () {
     var day = takeDay("txtNgay");
     var month = takeMonth("txtNgay");
     var year = takeYear("txtNgay");
-    var dmax = dayMax(month,year);
+    var dmax = dayMax(month, year);
     day += 1;
-    if( day > dmax ){
+    if (day > dmax) {
         if (month == 12) {
             year += 1;
             month = 1;
@@ -110,7 +110,7 @@ getEleID("btnNgaySau").onclick = function () {
         }
         day = 1;
     }
-    var kq = "Ngày sau: "  + month + "-" + day + "-" + year;
+    var kq = "Ngày sau: " + month + "-" + day + "-" + year;
     getEleID("kqNgay").innerHTML = kq;
 }
 
@@ -122,13 +122,158 @@ getEleID("btnNgaySau").onclick = function () {
  * Đầu ra : hiển thị kết quả
  */
 
-getEleID("btnNgayTD").onclick = function(){
-    var day = takeDay("txtNgayTD");
+getEleID("btnNgayTD").onclick = function () {
     var month = takeMonth("txtNgayTD");
     var year = takeYear("txtNgayTD");
-    var dmax = dayMax(month,year);
-    var kq = "Ngày sau: "  + month + "-" + day + "-" + year;
+    var dmax = dayMax(month, year);
+    var kq = "Ngày tối đa: " + dmax + " ngày";
     getEleID("kqNgayTD").innerHTML = kq;
 }
+
+
+/**
+ * Bài 3 :
+ * Đầu vào : khai báo số nguyên có 3 chữ số
+ * Xử lý : tách hàng trăm chục đơn vị sau đó đọc từng phần
+ * Đầu ra : hiển thị kết quả
+ */
+function docSo(so) {
+    var t = "";
+    switch (so) {
+        case 0:
+            t = "không";
+            break;
+        case 1:
+            t = "một";
+            break;
+        case 2:
+            t = "hai";
+            break;
+        case 3:
+            t = "ba";
+            break;
+        case 4:
+            t = "bốn";
+            break;
+        case 5:
+            t = "năm";
+            break;
+        case 6:
+            t = "sáu";
+            break;
+        case 7:
+            t = "bảy";
+            break;
+        case 8:
+            t = "tám";
+            break;
+        case 9:
+            t = "chín";
+            break;
+        default:
+            t = "";
+            break;
+    }
+    return t;
+}
+
+getEleID("btnSNT").onclick = function () {
+    var snt = getEleID("txtSNT").value;
+    var hangTram = Math.floor(snt / 100);
+    var hangChuc = Math.floor((snt % 100) / 10);
+    var hangDv = snt % 10;
+    var kq = "";
+
+    if (hangTram != 0) {
+        if (hangChuc == 1) {
+            if (hangDv == 0) {
+                kq = docSo(hangTram) + " trăm mười";
+            } else {
+                kq = docSo(hangTram) + " trăm mười " + docSo(hangDv);
+            }
+        } else if (hangChuc == 0) {
+            if (hangDv == 0) {
+                kq = docSo(hangTram) + " trăm";
+            } else {
+                kq = docSo(hangTram) + " trăm lẻ " + docSo(hangDv);
+            }
+        } else {
+            if (hangDv == 0) {
+                kq = docSo(hangTram) + " trăm " + docSo(hangChuc) + " mươi";
+            } else if (hangDv == 1) {
+                kq = docSo(hangTram) + " trăm " + docSo(hangChuc) + " mươi mốt";
+            } else {
+                kq = docSo(hangTram) + " trăm " + docSo(hangChuc) + " mươi " + docSo(hangDv);
+            }
+        }
+    }
+    else {
+        if (hangChuc == 0) {
+            if (hangDv == 0) {
+                kq = "";
+            } else {
+                kq = docSo(hangDv);
+            }
+        } else if (hangChuc == 1) {
+            if (hangDv == 0) {
+                kq = "mười";
+            } else {
+                kq = "mười " +  docSo(hangDv);
+            }
+        } else {
+            if (hangDv == 0) {
+                kq = docSo(hangChuc) +  " mươi";
+            } else if (hangDv == 1) {
+                kq = docSo(hangChuc) + " mươi mốt";
+            } else {
+                kq = docSo(hangChuc) + " mươi " + docSo(hangDv);
+            }
+        }
+    }
+    getEleID("kqSNT").innerHTML = kq;
+}
+
+/**
+ * Bài 4 
+ * Đầu vào khai báo toạ độ trường, sv1, sv2, sv3
+ * Xử lý : tính khoảng cách từng sv và so sánh khoảng cách lớn nhất
+ * Đầu ra : hiển thị kết quả
+ */
+
+function tinhToaDo(x1, y1, x2, y2) {
+    x1 = parseFloat(x1);
+    x2 = parseFloat(x2);
+    y1 = parseFloat(y1);
+    y2 = parseFloat(y2);
+    var toaDo = Math.sqrt(Math.pow(Math.abs(x2-x1),2) + Math.pow(Math.abs(y2-y1),2))
+    return toaDo;
+}
+
+function soLonNhat(a, b, c){
+    var max = a;
+    if (max > b) {
+        max > c ? max = a : max = c;
+    } else {
+        max = b;
+        max > c ? max = b : max = c;
+    }
+    return max;
+}
+
+getEleID("btnToaDo").onclick = function () {
+    var xTruong = getEleID(txtTdXTruong).value;
+    // var yTruong = getEleID(txtTdYTruong).value;
+    // var xSv1 = getEleID(txtTdXSv1).value;
+    // var ySv1 = getEleID(txtTdYSv1).value;
+    // var xSv2 = getEleID(txtTdXSv2).value;
+    // var ySv2 = getEleID(txtTdYSv2).value;
+    // var xSv3 = getEleID(txtTdXSv3).value;
+    // var ySv3 = getEleID(txtTdYSv3).value;
+    // var toaDoSV1 = tinhToaDo(xTruong,yTruong,xSv1,ySv1);
+    // var toaDoSV2 = tinhToaDo(xTruong,yTruong,xSv2,ySv2);
+    // var toaDoSV3 = tinhToaDo(xTruong,yTruong,xSv3,ySv3);
+    console.log(xTruong);
+}
+
 
 
